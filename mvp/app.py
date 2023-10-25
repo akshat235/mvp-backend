@@ -1,17 +1,40 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from auth import auth_bp
+from test_handler import test_bp
+from dashboard import dashboard_bp
 from flask_cors import CORS, cross_origin
-from models import db
+from models import db, Question
+from mongoengine import connect
+import mongoengine
 
 
 app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc:///?odbc_connect=DRIVER={ODBC Driver 17 for SQL Server};SERVER=092Latitude3410;DATABASE=Sequio_user_1;trusted_connection=yes'
+# app.config['MONGODB_SETTINGS'] = {
+#     'db': 'DummyQuestions',
+#     'host': 'mongodb://localhost:27017'
+# }
+
+mongoengine.register_connection(
+    alias='default',
+    name='cat_exam',  
+    host='mongodb://localhost:27017')
+  
+
+# mongoengine.connect('DummyQuestions', host='mongodb://localhost:27017')
+
+# connect(
+#     alias='default',
+#     host=app.config['MONGODB_SETTINGS']['host']   
+# )
 
 db.init_app(app)
 
 app.register_blueprint(auth_bp, url_prefix='/auth')
+app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
+app.register_blueprint(test_bp, url_prefix='/test')
 
 with app.app_context():
     db.create_all()
