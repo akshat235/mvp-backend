@@ -36,6 +36,26 @@ class Question_Response(EmbeddedDocument):
     questionId = IntField()
     selectedOption = StringField()
     score = IntField()
+class TestData(EmbeddedDocument):
+    test_number = IntField()
+    responses = ListField(EmbeddedDocumentField(Question_Response))
+
+# class TestResponse(Document):
+#     userid = StringField()
+#     tests = ListField(EmbeddedDocumentField(TestData))
+    
+#     meta = {
+#         'collection': 'test_responses'
+#     }
+# class TestResponse(Document):
+#     userId = StringField()
+#     tests = ListField(EmbeddedDocumentField(TestData))
+#     total_score = IntField()  # Add total_score field
+
+#     meta = {
+#         'collection': 'test_responses'
+#     }
+
 
 class TestResponse(Document):
     userId = StringField()
@@ -44,4 +64,27 @@ class TestResponse(Document):
 
     meta = {
         'collection': 'test_responses'
+    }
+
+class SectionQuestionResponse(EmbeddedDocument):
+    questionid = StringField()
+    correctans = StringField()
+    optionSelected = StringField()
+
+class Submission(EmbeddedDocument):
+    VARC = ListField(EmbeddedDocumentField(SectionQuestionResponse))
+    QUANT = ListField(EmbeddedDocumentField(SectionQuestionResponse))
+    DILR = ListField(EmbeddedDocumentField(SectionQuestionResponse))
+
+class TestResponseWSection(Document):
+    userId = StringField()
+    submission = EmbeddedDocumentField(Submission)
+    test_number= IntField()
+    score_varc = IntField()
+    score_quant = IntField()
+    score_dilr = IntField()
+    total_score = IntField()
+
+    meta = {
+        'collection': 'response_with_section'  
     }

@@ -56,20 +56,16 @@ def register():
             return jsonify({"message": "User registered successfully"}), 201
 
         except Exception as e:
-            # Handle and log the error
             print(f"Error during user registration: {str(e)}")
             return jsonify({"error": "An error occurred during registration"}), 500
-
-    
 
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
-        data = request.get_json()
+        data = request.get_json()   
         username = data.get('username')
         password = data.get('password')
-
 
         if not username or not password:
             return jsonify({"message": "Both username and password are required"}), 400

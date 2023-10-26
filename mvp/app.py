@@ -11,6 +11,7 @@ import mongoengine
 
 app = Flask(__name__)
 CORS(app)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc:///?odbc_connect=DRIVER={ODBC Driver 17 for SQL Server};SERVER=092Latitude3410;DATABASE=Sequio_user_1;trusted_connection=yes'
 # app.config['MONGODB_SETTINGS'] = {
 #     'db': 'DummyQuestions',
