@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
 from auth import auth_bp
 from test_handler import test_bp
@@ -11,12 +11,18 @@ import mongoengine
 
 app = Flask(__name__)
 CORS(app)
-
+app.secret_key = 'dljsaklqk24e21cjn!Ew@@dsa5'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc:///?odbc_connect=DRIVER={ODBC Driver 17 for SQL Server};SERVER=092Latitude3410;DATABASE=Sequio_user_1;trusted_connection=yes'
 # app.config['MONGODB_SETTINGS'] = {
 #     'db': 'DummyQuestions',
 #     'host': 'mongodb://localhost:27017'
 # }
+
+
+
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_PERMANENT'] = False
+# session(app)
 
 mongoengine.register_connection(
     alias='default',

@@ -80,6 +80,8 @@ class TestResponseWSection(Document):
     userId = StringField()
     submission = EmbeddedDocumentField(Submission)
     test_number= IntField()
+    date = StringField()
+    time = StringField()
     score_varc = IntField()
     score_quant = IntField()
     score_dilr = IntField()
