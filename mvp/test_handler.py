@@ -24,6 +24,38 @@ def get_test_number(userID):
     return len(test_responses) + 1
 
 
+user_ID=None
+
+@test_bp.route("/get_paper_number", methods = ['POST','GET'])
+def get_paper_number():
+    global user_ID
+    if request.method == 'POST':
+        data = request.get_json()
+        if not data or 'userID' not in data:
+            return jsonify({"error": "Invalid data format or missing 'userID'"}), 400
+        # global user_ID
+        user_ID = data['userID']
+        print(user_ID)
+        return jsonify({"message": "Received userID"}), 200
+
+    if request.method == 'GET':
+        try:
+            # global userID
+            print(user_ID)
+            test_responses = TestResponseWSection.objects(userId=user_ID)
+            print(len(test_responses))
+            return jsonify({'paper_number': len(test_responses)}), 200
+        except Exception as e:
+            # Log the exception details for debugging
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(f"An error occurred: {exc_type} in {fname} at line {exc_tb.tb_lineno}")
+            return jsonify({"error": "An error occurred while processing the request."}), 500
+
+    return jsonify({"error": "Unsupported request method"}), 405
+
+
+
 # @test_bp.route('/send_userid', methods=['POST'])
 # def get_loggedin_userid():
 #     if request.method == 'POST':
@@ -50,27 +82,27 @@ def get_test_number(userID):
 
 
 
-@test_bp.route('/questions')
-def get_questions():
+# @test_bp.route('/questions')
+# def get_questions():
     
-    try:
-        qq = Question.objects()
-        questions_json = [
-            {
-                'id': str(question.id),
-                'questionId': question.questionId,
-                'questionBody': question.questionBody,
-                'options': question.options,
-                'correctAnswer': question.correctAnswer
-            }
-            for question in qq
-        ]
+#     try:
+#         qq = Question.objects()
+#         questions_json = [
+#             {
+#                 'id': str(question.id),
+#                 'questionId': question.questionId,
+#                 'questionBody': question.questionBody,
+#                 'options': question.options,
+#                 'correctAnswer': question.correctAnswer
+#             }
+#             for question in qq
+#         ]
 
-        return jsonify(questions_json), 200
-    except DoesNotExist:
-        return jsonify({'error': 'No questions found'}), 404
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+#         return jsonify(questions_json), 200
+#     except DoesNotExist:
+#         return jsonify({'error': 'No questions found'}), 404
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500
 
 
 @test_bp.route('/submitresponse', methods=['POST'])
