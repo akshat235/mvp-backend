@@ -1,5 +1,5 @@
 from models import Question, Question_Response, TestResponseWSection
-from flask import Flask, request, jsonify, Blueprint, session, make_response
+from flask import Flask, request, jsonify, Blueprint, session, make_response, send_file
 from mongoengine import DoesNotExist
 import mongoengine
 import random, os, sys
@@ -82,7 +82,7 @@ def get_test_responses():
         total_scores = [item['finalscore'] for item in response_data[:-2]]
         x_smooth = np.linspace(min(test_numbers), max(test_numbers), 100)
         y_smooth = np.interp(x_smooth, test_numbers, total_scores)
-        plt.figure(figsize=(8, 6), facecolor='lightgrey') 
+        plt.figure(figsize=(6, 4), facecolor='lightgrey') 
         plt.plot(x_smooth, y_smooth, linestyle='-', color='blue')
         plt.xlabel('Test Number')
         plt.ylabel('Total Score')
@@ -109,7 +109,9 @@ def get_test_responses():
         return jsonify({"message": f"An error occurred while fetching data: {str(e)}"}), 500
 
 
-
+@dashboard_bp.route('/get_image')
+def get_image():
+    return send_file('graphs/test_number_vs_total_score.png', as_attachment=True)
 
 
 # def get_test_responses():
