@@ -61,38 +61,55 @@ def get_test_responses():
             }
             response_data.append(data)
         # print("LENGHT", response_data)
-        growth_percentages = []
-        for i in range(1, len(response_data)):
-            current_score = response_data[i]['finalscore']
-            previous_score = response_data[i - 1]['finalscore']
-            # if previous_score:
-            week_on_week_growth = ((current_score - previous_score) / previous_score) * 100
-            growth_percentages.append(week_on_week_growth)
-        average_growth_percentage = sum(growth_percentages) / len(growth_percentages) if growth_percentages else 0
-        average_growth_percentage = round(average_growth_percentage,2)
+        if len(response_data) > 1:
+            growth_percentages = []
 
-        # print("GROWTH PERCENTAGE ->", growth_percentages)
-        response_data.append({'average_growth':average_growth_percentage})
-        response_data.append({'last_weeks_growth':round(growth_percentages[-1],2)})
+            for i in range(0, len(response_data) - 1):
+                current_score = response_data[i + 1]['finalscore']
+                previous_score = response_data[i]['finalscore']
+
+                if previous_score:
+                    week_on_week_growth = ((current_score - previous_score) / previous_score) * 100
+                    growth_percentages.append(week_on_week_growth)
+                else:
+                    growth_percentages.append(0)
+
+            average_growth_percentage = sum(growth_percentages) / len(growth_percentages)
+            average_growth_percentage = round(average_growth_percentage, 2)
+
+            response_data.append({'average_growth': average_growth_percentage})
+            response_data.append({'last_weeks_growth': round(growth_percentages[-1], 2)})
+        else:
+            response_data.append({'average_growth': 0})
+            response_data.append({'last_weeks_growth': 0})
 
 
         print("CONSOLE DATA _________________-----_____", response_data)
 
-        test_numbers = [item['test_number'] for item in response_data[:-2]]
-        total_scores = [item['finalscore'] for item in response_data[:-2]]
-        x_smooth = np.linspace(min(test_numbers), max(test_numbers), 100)
-        y_smooth = np.interp(x_smooth, test_numbers, total_scores)
-        plt.figure(figsize=(6, 4), facecolor='lightgrey') 
-        plt.plot(x_smooth, y_smooth, linestyle='-', color='blue')
-        plt.xlabel('Test Number')
-        plt.ylabel('Total Score')
-        plt.title(' ')
-        plt.grid(False)
-        plt.xticks(test_numbers)
-        filename = 'graphs/test_number_vs_total_score.png'
-        if os.path.exists(filename):
-            os.remove(filename)  
-        plt.savefig(filename, format='png', dpi=300)
+        try:
+            test_numbers = [item['test_number'] for item in response_data[:-2]]
+            total_scores = [item['finalscore'] for item in response_data[:-2]]
+            x_smooth = np.linspace(min(test_numbers), max(test_numbers), 100)
+            y_smooth = np.interp(x_smooth, test_numbers, total_scores)
+            
+            plt.figure(figsize=(6, 4), facecolor='lightgrey') 
+            plt.plot(x_smooth, y_smooth, linestyle='-', color='blue')
+            plt.xlabel('Test Number')
+            plt.ylabel('Total Score')
+            plt.title(' ')
+            plt.grid(False)
+            plt.xticks(test_numbers)
+            
+            filename = 'graphs/test_number_vs_total_score.png'
+            if os.path.exists(filename):
+                os.remove(filename)  
+            plt.savefig(filename, format='png', dpi=300)
+
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
+            print("An error occurred:", str(e))
 
         return jsonify(response_data), 200
     except TestResponseWSection.DoesNotExist:
