@@ -8,7 +8,8 @@ from flask_cors import CORS, cross_origin
 from flask import make_response
 
 
-test_bp = Blueprint("test_handler", __name__ )  
+test_bp = Blueprint("test_handler", __name__ )
+CORS(test_bp)  
 mongoengine.connect('cat_exam', host='mongodb://localhost:27017')
 #@test_bp.route('/submitresponse', methods=['OPTIONS'])
 #@test_bp.route("/get_paper_number", methods = ['OPTIONS'])
