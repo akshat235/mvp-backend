@@ -62,7 +62,7 @@ def get_paper_number():
             print(f"An error occurred: {exc_type} in {fname} at line {exc_tb.tb_lineno}")
             return jsonify({"error": "An error occurred while processing the request."}), 500
 
-    return jsonify({"error": "Unsupported request method"}), 405
+    return _corsify_actual_response(jsonify({"error": "Unsupported request method"})), 405
 
 
 
@@ -175,7 +175,7 @@ def save_test_response():
             test_response_instance.total_score = total_score
 
             test_response_instance.save()
-            return jsonify({"message": "Test response submitted successfully"}), 200
+            return _corsify_actual_response(jsonify({"message": "Test response submitted successfully"})), 200
 
         except Exception as e:
             print(e)
@@ -185,6 +185,10 @@ def save_test_response():
             return jsonify({"message": f"Error: {str(e)}"}), 500 
 
     return jsonify({"message": "Invalid request method"}), 405
+    
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 
