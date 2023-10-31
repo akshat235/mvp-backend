@@ -14,9 +14,13 @@ mongoengine.connect('cat_exam', host='mongodb://localhost:27017')
 @test_bp.route("/get_paper_number", methods = ['POST','GET'])
 def handle_options():
     response = make_response()
-    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
     response.headers.add("Access-Control-Allow-Methods", "*")
     response.headers.add("Access-Control-Allow-Headers", "*")
+    return response
+    
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
     return response
 
 def calculate_score(response_data):
@@ -186,9 +190,7 @@ def save_test_response():
 
     return _corsify_actual_response(jsonify({"message": "Invalid request method"})), 405
     
-def _corsify_actual_response(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
+
 
 
 
