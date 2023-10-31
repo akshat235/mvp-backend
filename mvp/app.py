@@ -7,6 +7,7 @@ from flask_cors import CORS, cross_origin
 from models import db, Question
 from mongoengine import connect
 import mongoengine
+import sqlalchemy_cockroachdb
 
 
 app = Flask(__name__)
@@ -24,7 +25,8 @@ app.secret_key = 'dljsaklqk24e21cjn!Ew@@dsa5'
 # )
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc://if0_35129443:BlGZx13uB9@sql305.infinityfree.com/if0_35129443_user?driver=ODBC+Driver+17+for+SQL+Server"
+# app.config['SQLALCHEMY_DATABASE_URI'] = "cockroachdb://sequio:6TWp3jo7ABWTEZQyzzaW5A@funny-monkey-3740.g95.cockroachlabs.cloud:26257/user?sslmode=verify-full"
+app.config['SQLALCHEMY_DATABASE_URI'] = "cockroachdb://sequio:6YOZGm7rmeM-8N4g2v5TOg@elder-thrush-3741.g95.cockroachlabs.cloud:26257/user?sslmode=verify-full"
 
 
 # app.config['MONGODB_SETTINGS'] = {
