@@ -39,8 +39,9 @@ def get_test_number(userID):
 
 
 user_ID=None
-@cross_origin()
+
 @test_bp.route("/get_paper_number", methods = ['POST','GET'])
+@cross_origin()
 def get_paper_number():
     global user_ID
     if request.method == 'POST':
@@ -118,8 +119,9 @@ def get_paper_number():
 #     except Exception as e:
 #         return jsonify({'error': str(e)}), 500
 
-@cross_origin()
+
 @test_bp.route('/submitresponse', methods=['POST'])
+@cross_origin()
 def save_test_response():
     if request.method == 'POST':
         data = request.get_json()
