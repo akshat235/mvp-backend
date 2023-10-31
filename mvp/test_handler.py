@@ -33,7 +33,7 @@ mongoengine.connect('cat_exam', host='mongodb://localhost:27017') ## need to cha
 @test_bp.route('/submitresponse', methods=['OPTIONS'])
 @test_bp.route("/get_paper_number", methods = ['OPTIONS'])
 @test_bp.after_request
-def handle_options():
+def handle_options(response):
     origin = request.headers.get('Origin')
     if request.method == 'OPTIONS':
         response = make_response()
