@@ -10,21 +10,20 @@ from flask import make_response
 
 test_bp = Blueprint("test_handler", __name__ )
 CORS(test_bp)  
-mongoengine.connect('cat_exam', host='mongodb://localhost:27017')
+mongoengine.connect('cat_exam', host='mongodb://localhost:27017') ## need to change connection string. It is connecting to local host
 #@test_bp.route('/submitresponse', methods=['OPTIONS'])
 #@test_bp.route("/get_paper_number", methods = ['OPTIONS'])
-#def handle_options():
-   # response = make_response()
-   # response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
-   # response.headers.add("Access-Control-Allow-Methods", "*")
-   # response.headers.add("Access-Control-Allow-Headers", "*")
-   # return response\
-#test_bp.after_request
-def after_request(response):
-    header = response.headers
-    header['Access-Control-Allow-Origin'] = '*'
-    # Other headers can be added here if needed
+@test_bp.after_request()
+def handle_options(response):
+    origin = request.headers.get('Origin')
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
+    response.headers.add("Access-Control-Allow-Methods", 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+    response.headers.add("Access-Control-Allow-Headers", 'x-csrf-token')
+    response.headers.add("Access-Control-Allow-Headers", 'Content-Type')
     return response
+
+
 
 
 def _corsify_actual_response(response):
