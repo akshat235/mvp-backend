@@ -19,7 +19,7 @@ mongoengine.connect('cat_exam', host='mongodb://localhost:27017')
    # response.headers.add("Access-Control-Allow-Headers", "*")
    # return response\
 #test_bp.after_request
-def after_request(response)
+def after_request(response):
     header = response.headers
     header['Access-Control-Allow-Origin'] = '*'
     # Other headers can be added here if needed
