@@ -4,7 +4,7 @@ from mongoengine import DoesNotExist
 import mongoengine
 import random, os, sys
 from datetime import datetime
-from flask_cors import CORS,cross_origin
+from flask_cors import CORS, cross_origin
 
 
 test_bp = Blueprint("test_handler", __name__ )  
