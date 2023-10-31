@@ -45,7 +45,7 @@ def handle_options():
         if origin:
             response.headers.add('Access-Control-Allow-Origin', origin)
         else:
-        response.headers.add('Access-Control-Allow-Credentials', True)
+            response.headers.add('Access-Control-Allow-Credentials', 'true')
         if origin:
             response.headers.add('Access-Control-Allow-Origin', origin)
         
