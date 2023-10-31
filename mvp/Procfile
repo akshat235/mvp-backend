@@ -1,2 +1,2 @@
 web: gunicorn app:app.py 
-setup: mkdir -p $env:appdata\postgresql\; Invoke-WebRequest -Uri https://cockroachlabs.cloud/clusters/2212bf39-0c78-4135-bde1-beee6b3267e7/cert -OutFile $env:appdata\postgresql\root.crt
+setup: curl --create-dirs -o $HOME/.postgresql/root.crt 'https://cockroachlabs.cloud/clusters/2212bf39-0c78-4135-bde1-beee6b3267e7/cert'
