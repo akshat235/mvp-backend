@@ -6,14 +6,15 @@ import random, os, sys
 from datetime import datetime
 from flask_cors import CORS, cross_origin
 from flask import make_response
+from app import app
 
 
-test_bp = Blueprint("test_handler", __name__ )
+#test_bp = Blueprint("test_handler", __name__ )
 CORS(test_bp)  
 mongoengine.connect('cat_exam', host='mongodb://localhost:27017') ## need to change connection string. It is connecting to local host
 #@test_bp.route('/submitresponse', methods=['OPTIONS'])
 #@test_bp.route("/get_paper_number", methods = ['OPTIONS'])
-@test_bp.after_request
+@app.after_request
 def handle_options(response):
     origin = request.headers.get('Origin')
     if request.method == 'OPTIONS':
@@ -36,7 +37,7 @@ def handle_options(response):
 
 
 def _corsify_actual_response(response):
-    #response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
+    #response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd/")
     return response
 
 def calculate_score(response_data):
@@ -56,7 +57,7 @@ def get_test_number(userID):
 
 user_ID=None
 
-@test_bp.route("/get_paper_number", methods = ['POST','GET'])
+@app.route("/get_paper_number", methods = ['POST','GET'])
 @cross_origin()
 def get_paper_number():
     global user_ID
@@ -136,7 +137,7 @@ def get_paper_number():
 #         return jsonify({'error': str(e)}), 500
 
 
-@test_bp.route('/submitresponse', methods=['POST'])
+@app.route('/submitresponse', methods=['POST'])
 @cross_origin()
 def save_test_response():
     if request.method == 'POST':
