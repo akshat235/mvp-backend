@@ -88,5 +88,5 @@ class TestResponseWSection(Document):
     total_score = IntField()
 
     meta = {
-        'collection': 'response_with_section'  
+        'collection': 'user'  
     }
