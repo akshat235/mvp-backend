@@ -15,13 +15,21 @@ mongoengine.connect('cat_exam', host='mongodb://localhost:27017') ## need to cha
 #@test_bp.route("/get_paper_number", methods = ['OPTIONS'])
 @test_bp.after_request()
 def handle_options(response):
-    origin = request.headers.get('Origin')
-    response = make_response()
-    response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
-    response.headers.add("Access-Control-Allow-Methods", 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-    response.headers.add("Access-Control-Allow-Headers", 'x-csrf-token')
-    response.headers.add("Access-Control-Allow-Headers", 'Content-Type')
-    return response
+    if request.method == 'OPTIONS':
+            response = make_response()
+            response.headers.add('Access-Control-Allow-Credentials', 'true')
+            response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+            response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
+            response.headers.add('Access-Control-Allow-Methods',
+                                'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+            if origin:
+                response.headers.add('Access-Control-Allow-Origin', origin)
+        else:
+            response.headers.add('Access-Control-Allow-Credentials', 'true')
+            if origin:
+                response.headers.add('Access-Control-Allow-Origin', origin)
+
+        return response
 
 
 
