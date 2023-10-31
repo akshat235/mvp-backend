@@ -12,15 +12,27 @@ import mongoengine
 app = Flask(__name__)
 CORS(app)
 app.secret_key = 'dljsaklqk24e21cjn!Ew@@dsa5'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc:///?odbc_connect=DRIVER={ODBC Driver 17 for SQL Server};SERVER=092Latitude3410;DATABASE=Sequio_user_1;trusted_connection=yes'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc:///?odbc_connect=DRIVER={ODBC Driver 17 for SQL Server};SERVER=092Latitude3410;DATABASE=Sequio_user_1;trusted_connection=yes'
+
+
+# conn_str = (
+#     "Driver={ODBC Driver 17 for SQL Server};"
+#     "Server=sql305.infinityfree.com;"
+#     "Database=if0_35129443_user;"
+#     "UID=if0_35129443;"
+#     "PWD=BlGZx13uB9;"
+# )
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc://if0_35129443:BlGZx13uB9@sql305.infinityfree.com/if0_35129443_user?driver=ODBC+Driver+17+for+SQL+Server"
+
+
 # app.config['MONGODB_SETTINGS'] = {
 #     'db': 'DummyQuestions',
 #     'host': 'mongodb://localhost:27017'
 # }
 
-
-
-app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_TYPE'] = 'filesystem'   
 app.config['SESSION_PERMANENT'] = False
 # session(app)
 
