@@ -30,32 +30,24 @@ mongoengine.connect('cat_exam', host='mongodb://localhost:27017') ## need to cha
             # response.headers.add('Access-Control-Allow-Origin', origin)
 
         # return response,200
-@test_bp.route('/submitresponse', methods=['OPTIONS'])
-@test_bp.route("/get_paper_number", methods = ['OPTIONS'])
-@test_bp.after_request
-def handle_options(response):
-    origin = request.headers.get('Origin')
-    if request.method == 'OPTIONS':
-        response = make_response()
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-        response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
-        response.headers.add('Access-Control-Allow-Methods',
-                            'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-        if origin:
-            response.headers.add('Access-Control-Allow-Origin', origin)
-        else:
-            response.headers.add('Access-Control-Allow-Credentials', 'true')
-        if origin:
-            response.headers.add('Access-Control-Allow-Origin', origin)
-        
-    return response,200
+# @test_bp.route('/submitresponse', methods=['OPTIONS'])
+# @test_bp.route("/get_paper_number", methods = ['OPTIONS'])
+# @test_bp.after_request
+def build_preflight():
+    response = make_response()
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "*")
+    response.headers.add("Access-Control-Allow-Methods", "*")
+    return response
+    
+
 
 
 
 
 def _corsify_actual_response(response):
-    #response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd/")
+    response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 def calculate_score(response_data):
@@ -79,6 +71,9 @@ user_ID=None
 @cross_origin()
 def get_paper_number():
     global user_ID
+    
+    if request.method == "OPTIONS" :
+        return build_preflight()
     if request.method == 'POST':
         data = request.get_json()
         if not data or 'userID' not in data:
@@ -158,6 +153,10 @@ def get_paper_number():
 @test_bp.route('/submitresponse', methods=['POST'])
 @cross_origin()
 def save_test_response():
+
+    if request.method == "OPTIONS" :
+        return build_preflight()
+        
     if request.method == 'POST':
         data = request.get_json()
         # print(data)
