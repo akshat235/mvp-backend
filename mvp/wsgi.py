@@ -3,4 +3,4 @@ from flask_cors import CORS, cross_origin
  
 if __name__ == "__main__":
         app.run()
-        CORS(app)
+        #CORS(app)
