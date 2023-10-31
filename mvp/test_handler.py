@@ -17,7 +17,7 @@ mongoengine.connect('cat_exam', host='mongodb://localhost:27017') ## need to cha
 def handle_options(response):
     origin = request.headers.get('Origin')
     if request.method == 'OPTIONS':
-            response = make_response()
+        response = make_response()
         response.headers.add('Access-Control-Allow-Credentials', 'true')
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
         response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
@@ -26,7 +26,7 @@ def handle_options(response):
         if origin:
             response.headers.add('Access-Control-Allow-Origin', origin)
     else:
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        response.headers.add('Access-Control-Allow-Credentials', True)
         if origin:
             response.headers.add('Access-Control-Allow-Origin', origin)
 
