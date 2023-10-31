@@ -35,7 +35,6 @@ mongoengine.connect('cat_exam', host='mongodb://localhost:27017') ## need to cha
 # @test_bp.after_request
 def build_preflight():
     response = make_response()
-    response = make_response()
     response.headers.add("Access-Control-Allow-Origin", "*")
     response.headers.add("Access-Control-Allow-Headers", "*")
     response.headers.add("Access-Control-Allow-Methods", "*")
@@ -67,7 +66,7 @@ def get_test_number(userID):
 
 user_ID=None
 
-@test_bp.route("/get_paper_number", methods = ['POST','GET'])
+@test_bp.route("/get_paper_number", methods = ['POST','GET',"OPTIONS"])
 @cross_origin()
 def get_paper_number():
     global user_ID
@@ -150,7 +149,7 @@ def get_paper_number():
 #         return jsonify({'error': str(e)}), 500
 
 
-@test_bp.route('/submitresponse', methods=['POST'])
+@test_bp.route('/submitresponse', methods=['POST',"OPTIONS"])
 @cross_origin()
 def save_test_response():
 
