@@ -75,7 +75,7 @@ def get_test_number(userID):
 
 user_ID=None
 
-@app.route("/get_paper_number", methods = ['POST','GET'])
+@test_bp.route("/get_paper_number", methods = ['POST','GET'])
 @cross_origin()
 def get_paper_number():
     global user_ID
