@@ -10,17 +10,24 @@ from flask import make_response
 
 test_bp = Blueprint("test_handler", __name__ )  
 mongoengine.connect('cat_exam', host='mongodb://localhost:27017')
-@test_bp.route('/submitresponse', methods=['OPTIONS'])
-@test_bp.route("/get_paper_number", methods = ['OPTIONS'])
-def handle_options():
-    response = make_response()
-    response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
-    response.headers.add("Access-Control-Allow-Methods", "*")
-    response.headers.add("Access-Control-Allow-Headers", "*")
+#@test_bp.route('/submitresponse', methods=['OPTIONS'])
+#@test_bp.route("/get_paper_number", methods = ['OPTIONS'])
+#def handle_options():
+   # response = make_response()
+   # response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
+   # response.headers.add("Access-Control-Allow-Methods", "*")
+   # response.headers.add("Access-Control-Allow-Headers", "*")
+   # return response\
+#test_bp.after_request
+def after_request(response)
+    header = response.headers
+    header['Access-Control-Allow-Origin'] = '*'
+    # Other headers can be added here if needed
     return response
-    
+
+
 def _corsify_actual_response(response):
-    response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
+    #response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
     return response
 
 def calculate_score(response_data):
