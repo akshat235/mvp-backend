@@ -155,7 +155,7 @@ def get_paper_number():
 #         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/submitresponse', methods=['POST'])
+@test_bp.route('/submitresponse', methods=['POST'])
 @cross_origin()
 def save_test_response():
     if request.method == 'POST':
