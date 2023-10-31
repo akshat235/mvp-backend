@@ -30,7 +30,7 @@ def handle_options(response):
         if origin:
             response.headers.add('Access-Control-Allow-Origin', origin)
 
-        return response
+        return response,200
 
 
 
