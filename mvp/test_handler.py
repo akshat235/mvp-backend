@@ -9,13 +9,31 @@ from flask import make_response
 from app import app
 
 
-#test_bp = Blueprint("test_handler", __name__ )
+test_bp = Blueprint("test_handler", __name__ )
 #CORS(test_bp)  
 mongoengine.connect('cat_exam', host='mongodb://localhost:27017') ## need to change connection string. It is connecting to local host
-#@test_bp.route('/submitresponse', methods=['OPTIONS'])
-#@test_bp.route("/get_paper_number", methods = ['OPTIONS'])
-@app.after_request
-def handle_options(response):
+
+# def handle_options(response):
+    # origin = request.headers.get('Origin')
+    # if request.method == 'OPTIONS':
+        # response = make_response()
+        # response.headers.add('Access-Control-Allow-Credentials', 'true')
+        # response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        # response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
+        # response.headers.add('Access-Control-Allow-Methods',
+                            # 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+        # if origin:
+            # response.headers.add('Access-Control-Allow-Origin', origin)
+    # else:
+        # response.headers.add('Access-Control-Allow-Credentials', True)
+        # if origin:
+            # response.headers.add('Access-Control-Allow-Origin', origin)
+
+        # return response,200
+@test_bp.route('/submitresponse', methods=['OPTIONS'])
+@test_bp.route("/get_paper_number", methods = ['OPTIONS'])
+@test_bp.after_request
+def handle_options():
     origin = request.headers.get('Origin')
     if request.method == 'OPTIONS':
         response = make_response()
@@ -26,12 +44,12 @@ def handle_options(response):
                             'GET, POST, OPTIONS, PUT, PATCH, DELETE')
         if origin:
             response.headers.add('Access-Control-Allow-Origin', origin)
-    else:
+        else:
         response.headers.add('Access-Control-Allow-Credentials', True)
         if origin:
             response.headers.add('Access-Control-Allow-Origin', origin)
-
-        return response,200
+        
+    return response
 
 
 
