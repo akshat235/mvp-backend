@@ -26,7 +26,7 @@ app.secret_key = 'dljsaklqk24e21cjn!Ew@@dsa5'
 
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "cockroachdb://sequio:6TWp3jo7ABWTEZQyzzaW5A@funny-monkey-3740.g95.cockroachlabs.cloud:26257/user?sslmode=verify-full"
-app.config['SQLALCHEMY_DATABASE_URI'] = "cockroachdb://sequio:6YOZGm7rmeM-8N4g2v5TOg@elder-thrush-3741.g95.cockroachlabs.cloud:26257/user?sslmode=verify-full"
+app.config['SQLALCHEMY_DATABASE_URI'] = "cockroachdb://sequio:6YOZGm7rmeM-8N4g2v5TOg@elder-thrush-3741.g95.cockroachlabs.cloud:26257/user?sslmode=disable"
 
 
 # app.config['MONGODB_SETTINGS'] = {
