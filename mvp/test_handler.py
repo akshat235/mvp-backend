@@ -46,7 +46,7 @@ def get_paper_number():
         # global user_ID
         user_ID = data['userID']
         print(user_ID)
-        return jsonify({"message": "Received userID"}), 200
+        return _corsify_actual_response(jsonify({"message": "Received userID"})), 200
 
     if request.method == 'GET':
         try:
@@ -54,13 +54,13 @@ def get_paper_number():
             print(user_ID)
             test_responses = TestResponseWSection.objects(userId=user_ID)
             print(len(test_responses))
-            return jsonify({'paper_number': len(test_responses)}), 200
+            return _corsify_actual_response(jsonify({'paper_number': len(test_responses)})), 200
         except Exception as e:
             # Log the exception details for debugging
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(f"An error occurred: {exc_type} in {fname} at line {exc_tb.tb_lineno}")
-            return jsonify({"error": "An error occurred while processing the request."}), 500
+            return _corsify_actual_response(jsonify({"error": "An error occurred while processing the request."})), 500
 
     return _corsify_actual_response(jsonify({"error": "Unsupported request method"})), 405
 
@@ -182,9 +182,9 @@ def save_test_response():
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(exc_type, fname, exc_tb.tb_lineno)
-            return jsonify({"message": f"Error: {str(e)}"}), 500 
+            return _corsify_actual_response(jsonify({"message": f"Error: {str(e)}"})), 500 
 
-    return jsonify({"message": "Invalid request method"}), 405
+    return _corsify_actual_response(jsonify({"message": "Invalid request method"})), 405
     
 def _corsify_actual_response(response):
     response.headers.add("Access-Control-Allow-Origin", "*")
