@@ -11,7 +11,7 @@ from flask import make_response
 test_bp = Blueprint("test_handler", __name__ )  
 mongoengine.connect('cat_exam', host='mongodb://localhost:27017')
 @test_bp.route('/submitresponse', methods=['OPTIONS'])
-@test_bp.route("/get_paper_number", methods = ['POST','GET'])
+@test_bp.route("/get_paper_number", methods = ['OPTIONS'])
 def handle_options():
     response = make_response()
     response.headers.add("Access-Control-Allow-Origin", "http://sequio-mvp.rf.gd")
