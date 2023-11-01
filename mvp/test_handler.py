@@ -9,7 +9,7 @@ from flask import make_response
 
 
 
-test_bp = Blueprint("test_handler", __name__ )
+test_bp = Blueprint("test_handler", __name__ ,)
 #CORS(test_bp)  
 mongoengine.connect('response', host='mongodb+srv://sequio:nkY9KPEPZmNhBYYx@cluster0.jyovip1.mongodb.net/?retryWrites=true&w=majority/user') 
 
