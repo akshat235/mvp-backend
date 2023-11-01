@@ -46,7 +46,7 @@ def build_preflight():
 
 
 def _corsify_actual_response(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
+    #response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 def calculate_score(response_data):
