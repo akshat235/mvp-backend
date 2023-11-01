@@ -11,7 +11,7 @@ import sqlalchemy_cockroachdb
 
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.secret_key = 'dljsaklqk24e21cjn!Ew@@dsa5'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc:///?odbc_connect=DRIVER={ODBC Driver 17 for SQL Server};SERVER=092Latitude3410;DATABASE=Sequio_user_1;trusted_connection=yes'
