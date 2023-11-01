@@ -71,8 +71,8 @@ user_ID=None
 def get_paper_number():
     global user_ID
     
-    if request.method == "OPTIONS" :
-        return build_preflight()
+    # if request.method == "OPTIONS" :
+        # return build_preflight()
     if request.method == 'POST':
         data = request.get_json()
         if not data or 'userID' not in data:
@@ -153,8 +153,8 @@ def get_paper_number():
 @cross_origin()
 def save_test_response():
 
-    if request.method == "OPTIONS" :
-        return build_preflight()
+    # if request.method == "OPTIONS" :
+        # return build_preflight()
         
     if request.method == 'POST':
         data = request.get_json()
