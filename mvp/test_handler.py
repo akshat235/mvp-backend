@@ -2,6 +2,7 @@ from models import Question, Question_Response, TestResponse, SectionQuestionRes
 from flask import Flask, request, jsonify, Blueprint
 from mongoengine import DoesNotExist
 import mongoengine
+from flask_cors import CORS, cross_origin
 import random, os, sys
 from datetime import datetime
 
@@ -25,7 +26,7 @@ def get_test_number(userID):
 
 
 user_ID=None
-
+@cross_origin()
 @test_bp.route("/get_paper_number", methods = ['POST','GET'])
 def get_paper_number():
     global user_ID

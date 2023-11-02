@@ -38,11 +38,19 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_PERMANENT'] = False
 # session(app)
 
+# mongoengine.register_connection(
+#     alias='default',
+#     name='cat_exam',  
+#     host='mongodb://localhost:27017')
+  
+
 mongoengine.register_connection(
     alias='default',
-    name='cat_exam',  
-    host='mongodb://localhost:27017')
-  
+    name='response',
+    host='mongodb+srv://sequio:nkY9KPEPZmNhBYYx@cluster0.jyovip1.mongodb.net/?retryWrites=true&w=majority/user')
+
+
+
 
 # mongoengine.connect('DummyQuestions', host='mongodb://localhost:27017')
 

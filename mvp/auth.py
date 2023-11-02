@@ -6,7 +6,7 @@ import hashlib
 from argon2 import PasswordHasher
 
 
-auth_bp = Blueprint("auth", __name__, )
+auth_bp = Blueprint("auth", __name__)
 
 ph = ph = PasswordHasher(time_cost=4, parallelism=8, hash_len=64)
 
