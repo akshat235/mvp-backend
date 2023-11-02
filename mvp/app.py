@@ -11,7 +11,8 @@ import sqlalchemy_cockroachdb
 
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.secret_key = 'dljsaklqk24e21cjn!Ew@@dsa5'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc:///?odbc_connect=DRIVER={ODBC Driver 17 for SQL Server};SERVER=092Latitude3410;DATABASE=Sequio_user_1;trusted_connection=yes'
 
@@ -26,7 +27,7 @@ app.secret_key = 'dljsaklqk24e21cjn!Ew@@dsa5'
 
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "cockroachdb://sequio:6TWp3jo7ABWTEZQyzzaW5A@funny-monkey-3740.g95.cockroachlabs.cloud:26257/user?sslmode=verify-full"
-app.config['SQLALCHEMY_DATABASE_URI'] = "cockroachdb://sequio:6YOZGm7rmeM-8N4g2v5TOg@elder-thrush-3741.g95.cockroachlabs.cloud:26257/user?sslmode=verify-full"
+app.config['SQLALCHEMY_DATABASE_URI'] = "cockroachdb://sequio:6YOZGm7rmeM-8N4g2v5TOg@elder-thrush-3741.g95.cockroachlabs.cloud:26257/user?sslmode=allow"
 
 
 # app.config['MONGODB_SETTINGS'] = {
@@ -48,9 +49,7 @@ mongoengine.register_connection(
     alias='default',
     name='response',
     host='mongodb+srv://sequio:nkY9KPEPZmNhBYYx@cluster0.jyovip1.mongodb.net/?retryWrites=true&w=majority/user')
-
-
-
+  
 
 # mongoengine.connect('DummyQuestions', host='mongodb://localhost:27017')
 
@@ -69,5 +68,5 @@ with app.app_context():
     db.create_all()
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+#if __name__ == '__main__':
+   # app.run(debug=True)

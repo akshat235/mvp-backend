@@ -9,7 +9,7 @@ import numpy as np
 
 
 dashboard_bp = Blueprint("dashboard", __name__ )  
-mongoengine.connect('cat_exam', host='mongodb://localhost:27017')
+mongoengine.connect('response', host='mongodb+srv://sequio:nkY9KPEPZmNhBYYx@cluster0.jyovip1.mongodb.net/?retryWrites=true&w=majority') 
 uID=""
 # global loggedInUserId
 

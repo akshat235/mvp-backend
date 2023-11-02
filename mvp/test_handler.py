@@ -5,10 +5,50 @@ import mongoengine
 from flask_cors import CORS, cross_origin
 import random, os, sys
 from datetime import datetime
+from flask_cors import CORS, cross_origin
+from flask import make_response
 
 
-test_bp = Blueprint("test_handler", __name__ )  
-mongoengine.connect('cat_exam', host='mongodb://localhost:27017')
+
+test_bp = Blueprint("test_handler", __name__ ,)
+#CORS(test_bp)  
+mongoengine.connect('response', host='mongodb+srv://sequio:nkY9KPEPZmNhBYYx@cluster0.jyovip1.mongodb.net/?retryWrites=true&w=majority') 
+
+# def handle_options(response):
+    # origin = request.headers.get('Origin')
+    # if request.method == 'OPTIONS':
+        # response = make_response()
+        # response.headers.add('Access-Control-Allow-Credentials', 'true')
+        # response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        # response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
+        # response.headers.add('Access-Control-Allow-Methods',
+                            # 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+        # if origin:
+            # response.headers.add('Access-Control-Allow-Origin', origin)
+    # else:
+        # response.headers.add('Access-Control-Allow-Credentials', True)
+        # if origin:
+            # response.headers.add('Access-Control-Allow-Origin', origin)
+
+        # return response,200
+# @test_bp.route('/submitresponse', methods=['OPTIONS'])
+# @test_bp.route("/get_paper_number", methods = ['OPTIONS'])
+# @test_bp.after_request
+def build_preflight():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "*")
+    response.headers.add("Access-Control-Allow-Methods", "*")
+    return response
+    
+
+
+
+
+
+def _corsify_actual_response(response):
+    #response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 def calculate_score(response_data):
     score = 0
@@ -26,10 +66,14 @@ def get_test_number(userID):
 
 
 user_ID=None
+
+@test_bp.route("/get_paper_number", methods = ['POST','GET',"OPTIONS"])
 @cross_origin()
-@test_bp.route("/get_paper_number", methods = ['POST','GET'])
 def get_paper_number():
     global user_ID
+    
+    # if request.method == "OPTIONS" :
+        # return build_preflight()
     if request.method == 'POST':
         data = request.get_json()
         if not data or 'userID' not in data:
@@ -37,7 +81,7 @@ def get_paper_number():
         # global user_ID
         user_ID = data['userID']
         print(user_ID)
-        return jsonify({"message": "Received userID"}), 200
+        return _corsify_actual_response(jsonify({"message": "Received userID"})), 200
 
     if request.method == 'GET':
         try:
@@ -45,15 +89,15 @@ def get_paper_number():
             print(user_ID)
             test_responses = TestResponseWSection.objects(userId=user_ID)
             print(len(test_responses))
-            return jsonify({'paper_number': len(test_responses)}), 200
+            return _corsify_actual_response(jsonify({'paper_number': len(test_responses)})), 200
         except Exception as e:
             # Log the exception details for debugging
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(f"An error occurred: {exc_type} in {fname} at line {exc_tb.tb_lineno}")
-            return jsonify({"error": "An error occurred while processing the request."}), 500
+            return _corsify_actual_response(jsonify({"error": "An error occurred while processing the request."})), 500
 
-    return jsonify({"error": "Unsupported request method"}), 405
+    return _corsify_actual_response(jsonify({"error": "Unsupported request method"})), 405
 
 
 
@@ -106,8 +150,13 @@ def get_paper_number():
 #         return jsonify({'error': str(e)}), 500
 
 
-@test_bp.route('/submitresponse', methods=['POST'])
+@test_bp.route('/submitresponse', methods=['POST',"OPTIONS"])
+@cross_origin()
 def save_test_response():
+
+    # if request.method == "OPTIONS" :
+        # return build_preflight()
+        
     if request.method == 'POST':
         data = request.get_json()
         # print(data)
@@ -166,16 +215,18 @@ def save_test_response():
             test_response_instance.total_score = total_score
 
             test_response_instance.save()
-            return jsonify({"message": "Test response submitted successfully"}), 200
+            return _corsify_actual_response(jsonify({"message": "Test response submitted successfully"})), 200
 
         except Exception as e:
             print(e)
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print(exc_type, fname, exc_tb.tb_lineno)
-            return jsonify({"message": f"Error: {str(e)}"}), 500 
+            return _corsify_actual_response(jsonify({"message": f"Error: {str(e)}"})), 500 
 
-    return jsonify({"message": "Invalid request method"}), 405
+    return _corsify_actual_response(jsonify({"message": "Invalid request method"})), 405
+    
+
 
 
 
